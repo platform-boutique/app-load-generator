@@ -12,6 +12,19 @@ DEFAULT_HOST = "http://frontend:8080"
 _DURATION = re.compile(r"^(\d+[hms])+$")
 
 
+# journey names = task names in journeys.py = values of JOURNEYS
+JOURNEY_NAMES = (
+    "browse",
+    "product_view",
+    "add_to_cart",
+    "checkout_success",
+    "checkout_declined",
+    "out_of_stock",
+    "review",
+    "account",
+)
+
+
 class ConfigError(ValueError):
     """An environment variable has a value that cannot be used."""
 
@@ -55,6 +68,7 @@ class Config:
     think_min: float = 1.0
     think_max: float = 3.0
     sold_out_products: tuple[str, ...] = ("volleyball-153",)
+    journeys: tuple[str, ...] = ()  # empty = all of JOURNEY_NAMES
 
     @classmethod
     def from_env(cls, env: Mapping[str, str] | None = None) -> Config:
@@ -70,6 +84,10 @@ class Config:
         if think_max < think_min:
             raise ConfigError(f"THINK_MAX={think_max} must not be below THINK_MIN={think_min}")
         sold_out = tuple(p.strip() for p in env.get("SOLD_OUT_PRODUCTS", "").split(",") if p.strip())
+        journeys = tuple(j.strip() for j in env.get("JOURNEYS", "").split(",") if j.strip())
+        unknown = [j for j in journeys if j not in JOURNEY_NAMES]
+        if unknown:
+            raise ConfigError(f"JOURNEYS has unknown names {unknown}; known: {', '.join(JOURNEY_NAMES)}")
         return cls(
             host=host,
             users=_int(env, "USERS", cls.users, 1),
@@ -81,4 +99,5 @@ class Config:
             think_min=think_min,
             think_max=think_max,
             sold_out_products=sold_out or cls.sold_out_products,
+            journeys=journeys,
         )

@@ -9,7 +9,7 @@ from .config import Config, ConfigError
 
 
 def build_argv(cfg: Config, locustfile: str) -> list[str]:
-    return [
+    argv = [
         "locust",
         "-f", locustfile,
         "--headless",
@@ -20,6 +20,9 @@ def build_argv(cfg: Config, locustfile: str) -> list[str]:
         "--run-time", cfg.run_time,
         "--stop-timeout", "30",
     ]  # fmt: skip
+    if cfg.journeys:
+        argv += ["--tags", *cfg.journeys]
+    return argv
 
 
 def main() -> None:

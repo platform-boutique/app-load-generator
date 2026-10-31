@@ -68,3 +68,24 @@ def test_checkout_form_fields():
         "idempotency_key", "email", "street_address", "zip_code", "city", "state", "country",
         "credit_card_number", "credit_card_expiration_month", "credit_card_expiration_year", "credit_card_cvv",
     }  # fmt: skip
+
+
+def test_journeys_filter():
+    from loadgen.__main__ import build_argv
+
+    assert Config.from_env({}).journeys == ()
+    c = Config.from_env({"JOURNEYS": "account, browse"})
+    assert c.journeys == ("account", "browse")
+    argv = build_argv(c, "journeys.py")
+    assert argv[argv.index("--tags") + 1 :] == ["account", "browse"]
+    assert "--tags" not in build_argv(Config(), "journeys.py")
+    with pytest.raises(ConfigError):
+        Config.from_env({"JOURNEYS": "browse,nope"})
+
+
+def test_every_task_has_a_journey_name():
+    from loadgen.config import JOURNEY_NAMES
+    from loadgen.journeys import Shopper
+
+    tasks = {t.__name__ for t in Shopper.tasks}
+    assert tasks == set(JOURNEY_NAMES)

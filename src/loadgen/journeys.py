@@ -12,7 +12,7 @@ import random
 import secrets
 from collections import Counter
 
-from locust import HttpUser, between, events, task
+from locust import HttpUser, between, events, tag, task
 
 from loadgen import forms, page
 from loadgen.budget import Budget
@@ -159,6 +159,7 @@ class Shopper(ShopUser):
     # ---------------------------------------------------------------- journeys (weighted)
 
     @task(10)
+    @tag("browse")
     def browse(self) -> None:
         JOURNEYS["browse"] += 1
         home = self._open_home()
@@ -191,6 +192,7 @@ class Shopper(ShopUser):
                 self._fail(r, "page 2 lists no products")
 
     @task(8)
+    @tag("product_view")
     def product_view(self) -> None:
         JOURNEYS["product_view"] += 1
         pid = self._any_product()
@@ -211,6 +213,7 @@ class Shopper(ShopUser):
         self.v.get(f"/product/{random.choice(recs)}", "/product/[id] (from recommendation)", has=['name="product_id"'])
 
     @task(4)
+    @tag("add_to_cart")
     def add_to_cart(self) -> None:
         JOURNEYS["add_to_cart"] += 1
         filled = self._fill_cart()
@@ -219,6 +222,7 @@ class Shopper(ShopUser):
             self.v.get("/cart", "/cart (after empty)", has=[page.CART_EMPTY])
 
     @task(3)
+    @tag("checkout_success")
     def checkout_success(self) -> None:
         if ORDERS.exhausted:
             return  # MAX_ORDERS reached: this journey is skipped for the rest of the run
@@ -226,6 +230,7 @@ class Shopper(ShopUser):
         self._place_order()
 
     @task(2)
+    @tag("checkout_declined")
     def checkout_declined(self) -> None:
         JOURNEYS["checkout_declined"] += 1
         filled = self._fill_cart()
@@ -244,6 +249,7 @@ class Shopper(ShopUser):
         self._empty_cart()
 
     @task(1)
+    @tag("out_of_stock")
     def out_of_stock(self) -> None:
         JOURNEYS["out_of_stock"] += 1
         pid = random.choice(CONFIG.sold_out_products)
@@ -256,6 +262,7 @@ class Shopper(ShopUser):
         )
 
     @task(1)
+    @tag("review")
     def review(self) -> None:
         if REVIEWS.exhausted:
             return
@@ -286,6 +293,7 @@ class Shopper(ShopUser):
                 REVIEWS.give_back()
 
     @task(1)
+    @tag("account")
     def account(self) -> None:
         JOURNEYS["account"] += 1
         if not self._sign_in():
