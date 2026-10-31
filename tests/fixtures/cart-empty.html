@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head><title>fixture</title></head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="brand" aria-label="Everly home">
+<svg/>
+                <span class="brand-name">Everly</span>
+            </a>
+            <nav class="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="/">Shop</a></li>
+                    <li class="nav-all"><a href="/#products">All products</a></li>
+<li><a href="/?category=women">Women</a></li>
+<li><a href="/?category=men">Men</a></li>
+<li><a href="/?category=accessories">Accessories</a></li>
+<li><a href="/?category=beauty">Beauty</a></li>
+<li><a href="/?category=home">Home</a></li>
+<li><a href="/?category=kitchen">Kitchen</a></li>
+<li><a href="/?category=sports">Sports</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <form method="POST" class="currency-form" action="/setCurrency" id="currency_form">
+                    <label for="currency_code" class="visually-hidden">Currency</label>
+                    <span class="select-wrap">
+                        <select class="select" name="currency_code" id="currency_code"
+                            onchange="document.getElementById('currency_form').submit();">
+                            <option value="EUR" >€ EUR</option>
+                            <option value="USD" selected="selected">$ USD</option>
+                            <option value="JPY" >¥ JPY</option>
+                            <option value="GBP" >£ GBP</option>
+                            <option value="TRY" >₺ TRY</option>
+                            <option value="CAD" >$ CAD</option>
+                        </select>
+<svg/>
+                    </span>
+                    <noscript><button type="submit" class="btn btn-secondary">Set</button></noscript>
+                </form>
+                <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch colour theme">
+<svg/>
+<svg/>
+                </button>
+                <a href="/orders" class="icon-btn orders-link" aria-label="Orders">
+<svg/>
+                    <span class="orders-link-label" aria-hidden="true">Orders</span>
+                </a>
+                <a href="/login" class="icon-btn account-link is-signin">
+<svg/>
+                    <span class="account-link-label">Sign in</span>
+                </a>
+                <a href="/cart" class="icon-btn cart-link"
+                    aria-label="Cart, empty">
+<svg/>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div id="page-alert" class="container page-alert" role="alert"></div>
+<main id="main" class="cart-page">
+    <section class="container cart-empty" aria-labelledby="cart-title">
+        <div class="notice">
+            <div class="notice-icon is-neutral">
+<svg/>
+</div>
+            <h1 id="cart-title">Your shopping cart is empty!</h1>
+            <p class="muted">Items you add to your shopping cart will appear here.</p>
+            <div class="notice-actions">
+                <a class="btn btn-primary" href="/">Continue shopping</a>
+            </div>
+        </div>
+    </section>
+<section class="recommendations container" aria-labelledby="reco-title">
+    <div class="section-head">
+        <h2 id="reco-title">You may also like</h2>
+    </div>
+    <ul class="reco-grid">
+        <li class="product-card">
+            <div class="media">
+                <img loading="lazy" src="/static/img/products/plate-69-thumb.webp" alt="Plate" width="600" height="600">
+            </div>
+            <div class="product-card-meta">
+                <a class="product-card-link" href="/product/plate-69">Plate</a>
+            </div>
+        </li>
+        <li class="product-card">
+            <div class="media">
+                <img loading="lazy" src="/static/img/products/watch-gold-for-women-193-thumb.webp" alt="Watch Gold for Women" width="600" height="600">
+            </div>
+            <div class="product-card-meta">
+                <a class="product-card-link" href="/product/watch-gold-for-women-193">Watch Gold for Women</a>
+            </div>
+        </li>
+        <li class="product-card">
+            <div class="media">
+                <img loading="lazy" src="/static/img/products/wooden-rolling-pin-76-thumb.webp" alt="Wooden Rolling Pin" width="600" height="600">
+            </div>
+            <div class="product-card-meta">
+                <a class="product-card-link" href="/product/wooden-rolling-pin-76">Wooden Rolling Pin</a>
+            </div>
+        </li>
+        <li class="product-card">
+            <div class="media">
+                <img loading="lazy" src="/static/img/products/black-sun-glasses-154-thumb.webp" alt="Black Sun Glasses" width="600" height="600">
+            </div>
+            <div class="product-card-meta">
+                <a class="product-card-link" href="/product/black-sun-glasses-154">Black Sun Glasses</a>
+            </div>
+        </li>
+    </ul>
+</section>
+</main>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="brand">
+<svg/>
+                        <span class="brand-name">Everly</span>
+                    </a>
+                    <p>Everyday things, thoughtfully chosen.</p>
+                    <p>This is a demo store: nothing is for sale, no payment is taken and no order is shipped.</p>
+                </div>
+                <nav aria-label="Footer">
+                    <ul class="footer-links">
+                        <li><a href="/">Shop</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/orders">Your orders</a></li>
+                        <li><a href="/emails">Your emails</a></li>
+                        <li><a href="/login">Sign in</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="footer-meta">
+                <p>&copy; 2026 Everly</p>
+                <p class="footer-debug">
+                    session-id: 00000000-0000-0000-0000-000000000000
+                     · 
+                    request-id: 24ed2e50-a62c-40a6-978b-15da63b8599f
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

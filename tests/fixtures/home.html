@@ -1,0 +1,546 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head><title>fixture</title></head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="brand" aria-label="Everly home">
+<svg/>
+                <span class="brand-name">Everly</span>
+            </a>
+            <nav class="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="/">Shop</a></li>
+                    <li class="nav-all"><a href="/#products">All products</a></li>
+<li><a href="/?category=women">Women</a></li>
+<li><a href="/?category=men">Men</a></li>
+<li><a href="/?category=accessories">Accessories</a></li>
+<li><a href="/?category=beauty">Beauty</a></li>
+<li><a href="/?category=home">Home</a></li>
+<li><a href="/?category=kitchen">Kitchen</a></li>
+<li><a href="/?category=sports">Sports</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <form method="POST" class="currency-form" action="/setCurrency" id="currency_form">
+                    <label for="currency_code" class="visually-hidden">Currency</label>
+                    <span class="select-wrap">
+                        <select class="select" name="currency_code" id="currency_code"
+                            onchange="document.getElementById('currency_form').submit();">
+                            <option value="EUR" >€ EUR</option>
+                            <option value="USD" selected="selected">$ USD</option>
+                            <option value="JPY" >¥ JPY</option>
+                            <option value="GBP" >£ GBP</option>
+                            <option value="TRY" >₺ TRY</option>
+                            <option value="CAD" >$ CAD</option>
+                        </select>
+<svg/>
+                    </span>
+                    <noscript><button type="submit" class="btn btn-secondary">Set</button></noscript>
+                </form>
+                <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch colour theme">
+<svg/>
+<svg/>
+                </button>
+                <a href="/orders" class="icon-btn orders-link" aria-label="Orders">
+<svg/>
+                    <span class="orders-link-label" aria-hidden="true">Orders</span>
+                </a>
+                <a href="/login" class="icon-btn account-link is-signin">
+<svg/>
+                    <span class="account-link-label">Sign in</span>
+                </a>
+                <a href="/cart" class="icon-btn cart-link"
+                    aria-label="Cart, empty">
+<svg/>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div id="page-alert" class="container page-alert" role="alert"></div>
+<main id="main" class="home">
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero-card">
+      <div class="hero-copy">
+        <span class="hero-eyebrow">New season</span>
+        <h1 id="hero-title">Everyday things, thoughtfully chosen.</h1>
+        <p class="hero-lead">Home, kitchen, wardrobe and the small things in between, all in one place at Everly.</p>
+        <a class="btn btn-primary" href="#products">Shop all products</a>
+      </div>
+<svg/>
+    </div>
+  </section>
+<section class="section container dept-section" aria-labelledby="dept-title">
+  <div class="section-head">
+    <h2 id="dept-title">Shop by department</h2>
+  </div>
+  <ul class="dept-tiles">
+    <li>
+      <a class="dept-tile dept-women" href="/?category=women">
+        <span class="dept-name">Women</span>
+        <span class="dept-count">20 products</span>
+      </a>
+    </li>
+    <li>
+      <a class="dept-tile dept-men" href="/?category=men">
+        <span class="dept-name">Men</span>
+        <span class="dept-count">10 products</span>
+      </a>
+    </li>
+    <li>
+      <a class="dept-tile dept-accessories" href="/?category=accessories">
+        <span class="dept-name">Accessories</span>
+        <span class="dept-count">17 products</span>
+      </a>
+    </li>
+    <li>
+      <a class="dept-tile dept-beauty" href="/?category=beauty">
+        <span class="dept-name">Beauty</span>
+        <span class="dept-count">13 products</span>
+      </a>
+    </li>
+    <li>
+      <a class="dept-tile dept-home" href="/?category=home">
+        <span class="dept-name">Home</span>
+        <span class="dept-count">10 products</span>
+      </a>
+    </li>
+    <li>
+      <a class="dept-tile dept-kitchen" href="/?category=kitchen">
+        <span class="dept-name">Kitchen</span>
+        <span class="dept-count">30 products</span>
+      </a>
+    </li>
+    <li>
+      <a class="dept-tile dept-sports" href="/?category=sports">
+        <span class="dept-name">Sports</span>
+        <span class="dept-count">17 products</span>
+      </a>
+    </li>
+  </ul>
+</section>
+  <section class="section container" id="products" aria-labelledby="products-title">
+    <div class="section-head">
+      <h2 id="products-title">Our products</h2>
+    </div>
+<form class="catalog-toolbar" method="get" action="/" role="search"
+  hx-get="/" hx-target="#catalog-results" hx-swap="outerHTML" hx-indicator="#catalog-results" hx-push-url="true" hx-trigger="submit, change from:#sort">
+  <div class="field search-field">
+    <label for="q">Search</label>
+    <div class="search-row">
+      <input class="input" type="search" id="q" name="q" value="" maxlength="100"
+        placeholder="Search products, brands, tags" autocomplete="off">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+  <div class="field sort-field">
+    <label for="sort">Sort by</label>
+    <span class="select-wrap">
+      <select class="select" id="sort" name="sort">
+        <option value="name" selected>Name A-Z</option>
+        <option value="price_asc">Price: low to high</option>
+        <option value="price_desc">Price: high to low</option>
+        <option value="rating">Top rated</option>
+      </select>
+<svg/>
+    </span>
+  </div>
+</form>
+<div id="catalog-results" class="catalog-results" aria-live="polite">
+  <p class="result-count">
+    117 products &middot; page 1 of 5
+  </p>
+  <ul class="product-grid">
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/american-football-137-thumb.webp" alt="American Football" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Sports</span>
+    <a class="product-card-link" href="/product/american-football-137">American Football</a>
+<span class="rating" role="img" aria-label="4.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 80%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$19.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/annibale-colombo-bed-11-thumb.webp" alt="Annibale Colombo Bed" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Home &middot; Annibale Colombo</span>
+    <a class="product-card-link" href="/product/annibale-colombo-bed-11">Annibale Colombo Bed</a>
+<span class="rating" role="img" aria-label="2.3 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 46%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$1899.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/annibale-colombo-sofa-12-thumb.webp" alt="Annibale Colombo Sofa" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Home &middot; Annibale Colombo</span>
+    <a class="product-card-link" href="/product/annibale-colombo-sofa-12">Annibale Colombo Sofa</a>
+<span class="rating" role="img" aria-label="3.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 60%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$2499.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/attitude-super-leaves-hand-soap-118-thumb.webp" alt="Attitude Super Leaves Hand Soap" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Beauty &middot; Attitude</span>
+    <a class="product-card-link" href="/product/attitude-super-leaves-hand-soap-118">Attitude Super Leaves Hand Soap</a>
+<span class="rating" role="img" aria-label="4.7 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 94%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$8.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/bamboo-spatula-48-thumb.webp" alt="Bamboo Spatula" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Kitchen</span>
+    <a class="product-card-link" href="/product/bamboo-spatula-48">Bamboo Spatula</a>
+<span class="rating" role="img" aria-label="4.7 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 94%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$7.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/baseball-ball-138-thumb.webp" alt="Baseball Ball" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Sports</span>
+    <a class="product-card-link" href="/product/baseball-ball-138">Baseball Ball</a>
+<span class="rating" role="img" aria-label="3.3 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 66%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$8.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/baseball-glove-139-thumb.webp" alt="Baseball Glove" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Sports</span>
+    <a class="product-card-link" href="/product/baseball-glove-139">Baseball Glove</a>
+<span class="rating" role="img" aria-label="2.7 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 54%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$24.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/basketball-140-thumb.webp" alt="Basketball" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Sports</span>
+    <a class="product-card-link" href="/product/basketball-140">Basketball</a>
+<span class="rating" role="img" aria-label="3.7 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 74%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$14.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/basketball-rim-141-thumb.webp" alt="Basketball Rim" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Sports</span>
+    <a class="product-card-link" href="/product/basketball-rim-141">Basketball Rim</a>
+<span class="rating" role="img" aria-label="3.3 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 66%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$39.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/bedside-table-african-cherry-13-thumb.webp" alt="Bedside Table African Cherry" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Home &middot; Furniture Co.</span>
+    <a class="product-card-link" href="/product/bedside-table-african-cherry-13">Bedside Table African Cherry</a>
+<span class="rating" role="img" aria-label="4.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 80%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$299.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/black-and-brown-slipper-185-thumb.webp" alt="Black &amp; Brown Slipper" width="600" height="600">
+    <span class="stock-badge is-low">Only 3 left</span>
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Women &middot; Comfort Trends</span>
+    <a class="product-card-link" href="/product/black-and-brown-slipper-185">Black &amp; Brown Slipper</a>
+<span class="rating" role="img" aria-label="3.7 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 74%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$19.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/black-aluminium-cup-49-thumb.webp" alt="Black Aluminium Cup" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Kitchen</span>
+    <a class="product-card-link" href="/product/black-aluminium-cup-49">Black Aluminium Cup</a>
+<span class="rating" role="img" aria-label="3.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 60%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$5.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/black-sun-glasses-154-thumb.webp" alt="Black Sun Glasses" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Accessories &middot; Fashion Shades</span>
+    <a class="product-card-link" href="/product/black-sun-glasses-154">Black Sun Glasses</a>
+<span class="rating" role="img" aria-label="3.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 60%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$29.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/black-whisk-50-thumb.webp" alt="Black Whisk" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Kitchen</span>
+    <a class="product-card-link" href="/product/black-whisk-50">Black Whisk</a>
+<span class="rating" role="img" aria-label="3.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 60%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$9.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/black-womens-gown-177-thumb.webp" alt="Black Women&#39;s Gown" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Women</span>
+    <a class="product-card-link" href="/product/black-womens-gown-177">Black Women&#39;s Gown</a>
+<span class="rating" role="img" aria-label="4.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 80%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$129.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/blue-and-black-check-shirt-83-thumb.webp" alt="Blue &amp; Black Check Shirt" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Men &middot; Fashion Trends</span>
+    <a class="product-card-link" href="/product/blue-and-black-check-shirt-83">Blue &amp; Black Check Shirt</a>
+<span class="rating" role="img" aria-label="3.3 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 66%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$29.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/blue-frock-162-thumb.webp" alt="Blue Frock" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Women</span>
+    <a class="product-card-link" href="/product/blue-frock-162">Blue Frock</a>
+<span class="rating" role="img" aria-label="4.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 80%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$29.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/blue-womens-handbag-172-thumb.webp" alt="Blue Women&#39;s Handbag" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Women &middot; Fashionista</span>
+    <a class="product-card-link" href="/product/blue-womens-handbag-172">Blue Women&#39;s Handbag</a>
+<span class="rating" role="img" aria-label="3.3 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 66%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$49.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/boxed-blender-51-thumb.webp" alt="Boxed Blender" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Kitchen</span>
+    <a class="product-card-link" href="/product/boxed-blender-51">Boxed Blender</a>
+<span class="rating" role="img" aria-label="5.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 100%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$39.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/brown-leather-belt-watch-93-thumb.webp" alt="Brown Leather Belt Watch" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Accessories &middot; Fashion Timepieces</span>
+    <a class="product-card-link" href="/product/brown-leather-belt-watch-93">Brown Leather Belt Watch</a>
+<span class="rating" role="img" aria-label="3.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 60%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$89.99</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/calvin-klein-ck-one-6-thumb.webp" alt="Calvin Klein CK One" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Beauty &middot; Calvin Klein</span>
+    <a class="product-card-link" href="/product/calvin-klein-ck-one-6">Calvin Klein CK One</a>
+<span class="rating" role="img" aria-label="3.0 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 60%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$49.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/calvin-klein-heel-shoes-186-thumb.webp" alt="Calvin Klein Heel Shoes" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Women &middot; Calvin Klein</span>
+    <a class="product-card-link" href="/product/calvin-klein-heel-shoes-186">Calvin Klein Heel Shoes</a>
+<span class="rating" role="img" aria-label="3.7 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 74%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$79.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/carbon-steel-wok-52-thumb.webp" alt="Carbon Steel Wok" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Kitchen</span>
+    <a class="product-card-link" href="/product/carbon-steel-wok-52">Carbon Steel Wok</a>
+<span class="rating" role="img" aria-label="4.3 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 86%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$29.98</span>
+  </div>
+</li>
+<li class="product-card">
+  <div class="media">
+    <img loading="lazy" src="/static/img/products/chanel-coco-noir-eau-de-parfum-7-thumb.webp" alt="Chanel Coco Noir Eau de Parfum" width="600" height="600">
+  </div>
+  <div class="product-card-meta">
+    <span class="product-card-category">Beauty &middot; Chanel</span>
+    <a class="product-card-link" href="/product/chanel-coco-noir-eau-de-parfum-7">Chanel Coco Noir Eau de Parfum</a>
+<span class="rating" role="img" aria-label="4.7 out of 5, 3 reviews">
+<span class="stars" aria-hidden="true"><span class="stars-fill" style="width: 94%"></span></span>
+  <span class="rating-count" aria-hidden="true">(3)</span>
+</span>
+    <span class="product-card-price">$129.99</span>
+  </div>
+</li>
+  </ul>
+<nav class="pagination" aria-label="Pages" hx-target="#catalog-results" hx-swap="outerHTML show:#catalog-results:top" hx-indicator="#catalog-results" hx-push-url="true">
+  <span class="page-link page-prev is-disabled" aria-hidden="true">&larr; Prev</span>
+  <ol>
+    <li><span class="page-link is-current" aria-current="page">1</span></li>
+    <li><a class="page-link" href="/?page=2" hx-get="/?page=2" aria-label="Page 2">2</a></li>
+    <li><a class="page-link" href="/?page=3" hx-get="/?page=3" aria-label="Page 3">3</a></li>
+    <li class="page-gap" aria-hidden="true">&hellip;</li>
+    <li><a class="page-link" href="/?page=5" hx-get="/?page=5" aria-label="Page 5">5</a></li>
+  </ol>
+  <a class="page-link page-next" href="/?page=2" hx-get="/?page=2" rel="next">Next &rarr;</a>
+</nav>
+</div>
+  </section>
+<aside class="ad-slot container" aria-label="Advertisement">
+    <div class="ad-card">
+        <span class="ad-label">Ad</span>
+        <a href="/?category=sports" rel="nofollow noopener noreferrer" target="_blank">Gear up for the season. Balls, rackets and kit for every game.</a>
+    </div>
+</aside>
+</main>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="brand">
+<svg/>
+                        <span class="brand-name">Everly</span>
+                    </a>
+                    <p>Everyday things, thoughtfully chosen.</p>
+                    <p>This is a demo store: nothing is for sale, no payment is taken and no order is shipped.</p>
+                </div>
+                <nav aria-label="Footer">
+                    <ul class="footer-links">
+                        <li><a href="/">Shop</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/orders">Your orders</a></li>
+                        <li><a href="/emails">Your emails</a></li>
+                        <li><a href="/login">Sign in</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="footer-meta">
+                <p>&copy; 2026 Everly</p>
+                <p class="footer-debug">
+                    session-id: 00000000-0000-0000-0000-000000000000
+                     · 
+                    request-id: 2633af1b-e02c-449e-9e36-9dbcc3cf1fb4
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head><title>fixture</title></head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="brand" aria-label="Everly home">
+<svg/>
+                <span class="brand-name">Everly</span>
+            </a>
+            <nav class="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="/">Shop</a></li>
+                    <li class="nav-all"><a href="/#products">All products</a></li>
+<li><a href="/?category=women">Women</a></li>
+<li><a href="/?category=men">Men</a></li>
+<li><a href="/?category=accessories">Accessories</a></li>
+<li><a href="/?category=beauty">Beauty</a></li>
+<li><a href="/?category=home">Home</a></li>
+<li><a href="/?category=kitchen">Kitchen</a></li>
+<li><a href="/?category=sports">Sports</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch colour theme">
+<svg/>
+<svg/>
+                </button>
+                <a href="/orders" class="icon-btn orders-link" aria-label="Orders">
+<svg/>
+                    <span class="orders-link-label" aria-hidden="true">Orders</span>
+                </a>
+                <a href="/login" class="icon-btn account-link is-signin">
+<svg/>
+                    <span class="account-link-label">Sign in</span>
+                </a>
+                <a href="/cart" class="icon-btn cart-link"
+                    aria-label="Cart, empty">
+<svg/>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div id="page-alert" class="container page-alert" role="alert"></div>
+<main id="main" class="auth-page">
+    <div class="container">
+        <div class="auth-layout">
+            <form class="auth-card" id="login-form" method="POST" action="/login" aria-labelledby="auth-title" novalidate>
+                <h1 id="auth-title">Sign in</h1>
+<div class="field">
+    <label for="auth-email">Email</label>
+    <input class="input" type="email" id="auth-email" name="email" value="" maxlength="254" required
+        autocomplete="username" autocapitalize="none" spellcheck="false"
+        >
+</div>
+                <div class="field">
+                    <label for="auth-password">Password</label>
+                    <input class="input" type="password" id="auth-password" name="password" required autocomplete="current-password"
+                        >
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                <p class="auth-switch muted">New here? <a href="/register">Create an account</a></p>
+            </form>
+<aside class="auth-aside" aria-label="Why have an account">
+    <h2>Why have an account?</h2>
+    <ul class="auth-points">
+        <li>
+<svg/>
+<span>Your orders and their delivery progress, on every device.</span></li>
+        <li>
+<svg/>
+<span>Your cart waits for you when you come back. Items from this browser are added to it when you sign in.</span></li>
+        <li>
+<svg/>
+<span>No password reset or e-mail check in this demo store: use a throwaway password.</span></li>
+    </ul>
+</aside>
+        </div>
+    </div>
+</main>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="brand">
+<svg/>
+                        <span class="brand-name">Everly</span>
+                    </a>
+                    <p>Everyday things, thoughtfully chosen.</p>
+                    <p>This is a demo store: nothing is for sale, no payment is taken and no order is shipped.</p>
+                </div>
+                <nav aria-label="Footer">
+                    <ul class="footer-links">
+                        <li><a href="/">Shop</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/orders">Your orders</a></li>
+                        <li><a href="/emails">Your emails</a></li>
+                        <li><a href="/login">Sign in</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="footer-meta">
+                <p>&copy; 2026 Everly</p>
+                <p class="footer-debug">
+                    session-id: 00000000-0000-0000-0000-000000000000
+                     · 
+                    request-id: 983a671f-842f-4c66-8ba3-fd34f3d25dde
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

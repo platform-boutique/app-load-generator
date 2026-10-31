@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head><title>fixture</title></head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="brand" aria-label="Everly home">
+<svg/>
+                <span class="brand-name">Everly</span>
+            </a>
+            <nav class="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="/">Shop</a></li>
+                    <li class="nav-all"><a href="/#products">All products</a></li>
+<li><a href="/?category=women">Women</a></li>
+<li><a href="/?category=men">Men</a></li>
+<li><a href="/?category=accessories">Accessories</a></li>
+<li><a href="/?category=beauty">Beauty</a></li>
+<li><a href="/?category=home">Home</a></li>
+<li><a href="/?category=kitchen">Kitchen</a></li>
+<li><a href="/?category=sports">Sports</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch colour theme">
+<svg/>
+<svg/>
+                </button>
+                <a href="/orders" class="icon-btn orders-link" aria-label="Orders">
+<svg/>
+                    <span class="orders-link-label" aria-hidden="true">Orders</span>
+                </a>
+                <a href="/login" class="icon-btn account-link is-signin">
+<svg/>
+                    <span class="account-link-label">Sign in</span>
+                </a>
+                <a href="/cart" class="icon-btn cart-link"
+                    aria-label="Cart, empty">
+<svg/>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div id="page-alert" class="container page-alert" role="alert"></div>
+<main id="main" class="track-page">
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/orders">&larr; All orders</a>
+        </nav>
+        <div class="section-head track-head">
+            <h1>Order <span class="mono">#11291482</span></h1>
+            <p>Placed 31 October 2026</p>
+        </div>
+        <div class="track-layout">
+            <div class="track-main">
+                <section class="track-card" aria-labelledby="track-title">
+                    <h2 id="track-title" class="track-card-title">Order status</h2>
+                    <div id="order-live" class="order-live" hx-get="/orders/11291482-08f6-5a12-9bad-6d98201216a5" hx-trigger="every 15s" hx-swap="innerHTML">
+<div class="track-status">
+    <span class="status-badge is-shipped">Shipped</span>
+    <span class="track-asof muted">Status as of <time datetime="2026-10-31T23:26:17Z">23:26:17 UTC</time></span>
+</div>
+<ol class="tracker" aria-label="Order progress">
+    <li class="stage is-done">
+        <span class="stage-dot" aria-hidden="true">
+<svg/>
+</span>
+        <span class="stage-body">
+            <span class="stage-name">Placed</span>
+            <span class="stage-state">Done</span>
+            <span class="stage-when"><time datetime="2026-10-31T23:23:00Z">31 Oct 2026, 23:23 UTC</time></span>
+        </span>
+    </li>
+    <li class="stage is-done">
+        <span class="stage-dot" aria-hidden="true">
+<svg/>
+</span>
+        <span class="stage-body">
+            <span class="stage-name">Processing</span>
+            <span class="stage-state">Done</span>
+            <span class="stage-when"><time datetime="2026-10-31T23:24:00Z">31 Oct 2026, 23:24 UTC</time></span>
+        </span>
+    </li>
+    <li class="stage is-current" aria-current="step">
+        <span class="stage-dot" aria-hidden="true"></span>
+        <span class="stage-body">
+            <span class="stage-name">Shipped</span>
+            <span class="stage-state">Current step</span>
+            <span class="stage-when"><time datetime="2026-10-31T23:26:00Z">31 Oct 2026, 23:26 UTC</time></span>
+        </span>
+    </li>
+    <li class="stage is-pending">
+        <span class="stage-dot" aria-hidden="true"></span>
+        <span class="stage-body">
+            <span class="stage-name">Delivered</span>
+            <span class="stage-state">Pending</span>
+            <span class="stage-when">Expected <time datetime="2026-10-31T23:29:00Z">31 Oct 2026, 23:29 UTC</time></span>
+            <span class="stage-eta muted">in about 3 minutes</span>
+        </span>
+    </li>
+</ol>
+<p class="track-tracking"><span class="muted">Tracking number</span> <span class="order-id">OM-66510-335063722</span></p>
+<p class="track-refresh muted">This page checks for news every 15 seconds. <noscript>Reload the page to see the latest status.</noscript></p>
+                    </div>
+                </section>
+                <section class="track-card" aria-labelledby="items-title">
+                    <h2 id="items-title" class="track-card-title">Items</h2>
+                    <ul class="order-lines">
+                        <li class="order-line">
+                            <span class="media order-line-media"><img src="/static/img/products/american-football-137-1.webp" alt="" width="96" height="96" loading="lazy"></span>
+                            <span class="order-line-body">
+                                <span class="order-line-name">American Football</span>
+                                <span class="order-line-qty muted">1 &times; $19.99</span>
+                            </span>
+                            <span class="order-line-total">$19.99</span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+            <aside class="track-side" aria-label="Order details">
+                <section class="track-card">
+                    <h2 class="track-card-title">Summary</h2>
+                    <dl class="order-summary track-summary">
+                        <div class="order-row">
+                            <dt>Order number</dt>
+                            <dd class="order-id">11291482-08f6-5a12-9bad-6d98201216a5</dd>
+                        </div>
+                        <div class="order-row">
+                            <dt>Shipping</dt>
+                            <dd>$8.99</dd>
+                        </div>
+                        <div class="order-row order-total">
+                            <dt>Total</dt>
+                            <dd>$28.98</dd>
+                        </div>
+                    </dl>
+                </section>
+                <section class="track-card track-email" aria-labelledby="email-title">
+                    <h2 id="email-title" class="track-card-title">Confirmation email</h2>
+                    <p><a class="btn btn-secondary" href="/emails/e5aef1a3-7cf8-4aa1-9b56-319f5a8618b6?order=11291482-08f6-5a12-9bad-6d98201216a5">View confirmation email</a></p>
+                </section>
+                <section class="track-card">
+                    <h2 class="track-card-title">Shipping to</h2>
+                    <address class="track-address">
+                        1 Market Street<br>
+                        Springfield, CA 94043<br>
+                        United States
+                    </address>
+                </section>
+            </aside>
+        </div>
+    </div>
+</main>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="brand">
+<svg/>
+                        <span class="brand-name">Everly</span>
+                    </a>
+                    <p>Everyday things, thoughtfully chosen.</p>
+                    <p>This is a demo store: nothing is for sale, no payment is taken and no order is shipped.</p>
+                </div>
+                <nav aria-label="Footer">
+                    <ul class="footer-links">
+                        <li><a href="/">Shop</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/orders">Your orders</a></li>
+                        <li><a href="/emails">Your emails</a></li>
+                        <li><a href="/login">Sign in</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="footer-meta">
+                <p>&copy; 2026 Everly</p>
+                <p class="footer-debug">
+                    session-id: 00000000-0000-0000-0000-000000000000
+                     · 
+                    request-id: 733d5517-c434-423d-9f4c-94e4b39bbc25
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

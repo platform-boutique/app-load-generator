@@ -1,0 +1,14 @@
+# Build context = only what the Dockerfile copies (requirements.txt and src/).
+.git
+.venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.ruff_cache
+tests
+*.md
+requirements.in
+requirements-dev.txt
+pytest.ini
+pyproject.toml
+STATUS.md
