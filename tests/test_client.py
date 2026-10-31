@@ -36,7 +36,7 @@ def shop():
     Shop.routes = {}
     Shop.seen_cookies = []
     server = HTTPServer(("127.0.0.1", 0), Shop)
-    threading.Thread(target=server.serve_forever, daemon=True).start()
+    threading.Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01}, daemon=True).start()
     host = f"http://127.0.0.1:{server.server_port}"
     events = Events()
     events.request = EventHook()
@@ -50,7 +50,7 @@ def shop():
 def test_ok_page_with_markers_is_a_success(shop, fixture):
     visitor, fired, _ = shop
     Shop.routes["/"] = (200, fixture("home"), {})
-    r = visitor.get("/", "GET /", has=["Everly"])
+    r = visitor.get("/", "/", has=["Everly"])
     assert r.ok and r.status == 200
     assert fired[-1]["exception"] is None
 
@@ -58,7 +58,7 @@ def test_ok_page_with_markers_is_a_success(shop, fixture):
 def test_missing_marker_is_a_failure(shop, fixture):
     visitor, fired, _ = shop
     Shop.routes["/"] = (200, "<html>maintenance</html>", {})
-    r = visitor.get("/", "GET /", has=["Everly"])
+    r = visitor.get("/", "/", has=["Everly"])
     assert not r.ok
     assert "missing marker 'Everly'" in r.reasons[0]
     assert fired[-1]["exception"] is not None

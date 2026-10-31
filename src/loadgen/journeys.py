@@ -58,7 +58,7 @@ class Shopper(ShopUser):
     # ---------------------------------------------------------------- shared steps
 
     def _open_home(self) -> Reply:
-        r = self.v.get("/", "GET /", has=[page.BRAND])
+        r = self.v.get("/", "/", has=[page.BRAND])
         self._learn_catalog(r)
         self.depts = page.departments(r.text) or self.depts
         if r.ok and not page.card_product_ids(r.text):
@@ -95,7 +95,7 @@ class Shopper(ShopUser):
             pid = self._any_product()
             if pid is None or pid in CONFIG.sold_out_products:
                 continue
-            r = self.v.get(f"/product/{pid}", "GET /product/[id]", has=['name="product_id"'])
+            r = self.v.get(f"/product/{pid}", "/product/[id]", has=['name="product_id"'])
             if not r.ok:
                 return None
             if page.stock_state(r.text) == "in":
@@ -103,11 +103,11 @@ class Shopper(ShopUser):
         return None
 
     def _add_to_cart(self, pid: str) -> bool:
-        r = self.v.post("/cart", forms.add_to_cart_form(pid), "POST /cart (add)", status=(302, 303), location=["/cart"])
+        r = self.v.post("/cart", forms.add_to_cart_form(pid), "/cart (add)", status=(302, 303), location=["/cart"])
         return r.ok
 
     def _cart_with(self, pid: str) -> Reply | None:
-        r = self.v.get("/cart", "GET /cart", has=["Shipping address"], lacks=[page.CART_EMPTY])
+        r = self.v.get("/cart", "/cart", has=["Shipping address"], lacks=[page.CART_EMPTY])
         if r.ok and not page.cart_lists(r.text, pid):
             self._fail(r, "cart page does not list the added product")
         if r.ok and not page.idempotency_key(r.text):
@@ -115,7 +115,7 @@ class Shopper(ShopUser):
         return r if r.ok else None
 
     def _empty_cart(self) -> None:
-        self.v.post("/cart/empty", {}, "POST /cart/empty", status=(302, 303), location=["/"])
+        self.v.post("/cart/empty", {}, "/cart/empty", status=(302, 303), location=["/"])
 
     def _fill_cart(self) -> tuple[str, Reply] | None:
         picked = self._stocked_product()
@@ -143,7 +143,7 @@ class Shopper(ShopUser):
             filled = self._fill_cart()
             if filled is None:
                 return None
-            r = self._checkout(filled[1], forms.OK_CARD, "POST /cart/checkout (ok card)")
+            r = self._checkout(filled[1], forms.OK_CARD, "/cart/checkout (ok card)")
             oid = page.order_id(r.text) if r.ok else None
             if r.ok and not oid:
                 self._fail(r, "order page has no confirmation id")
@@ -167,25 +167,25 @@ class Shopper(ShopUser):
         # department
         if self.depts:
             dept = random.choice(self.depts)
-            r = self.v.get(f"/?category={dept}", "GET /?category=[dept]", has=[page.BRAND])
+            r = self.v.get(f"/?category={dept}", "/?category=[dept]", has=[page.BRAND])
             self._learn_catalog(r)
             if r.ok and not page.card_product_ids(r.text):
                 self._fail(r, "department page lists no products")
         # search: a tag seen on product pages, mostly; sometimes a word that matches nothing
         if random.random() < 0.2:
-            self.v.get(page.search_path(f"zzq{secrets.token_hex(3)}"), "GET /?q=[nothing]", has=[page.NOTHING_FOUND])
+            self.v.get(page.search_path(f"zzq{secrets.token_hex(3)}"), "/?q=[nothing]", has=[page.NOTHING_FOUND])
         else:
             term = random.choice(self.terms or SEARCH_FALLBACK)
-            r = self.v.get(page.search_path(term), "GET /?q=[term]", has=[page.BRAND])
+            r = self.v.get(page.search_path(term), "/?q=[term]", has=[page.BRAND])
             self._learn_catalog(r)
         # sort and paging
         if random.random() < 0.5:
             sort = random.choice(["price_asc", "price_desc"])
-            self.v.get(f"/?sort={sort}", "GET /?sort=[order]", has=[page.BRAND])
+            self.v.get(f"/?sort={sort}", "/?sort=[order]", has=[page.BRAND])
         nxt = page.next_page_path(home.text)
         path = page.same_origin_path(CONFIG.host, nxt) if nxt else None
         if path:
-            r = self.v.get(path, "GET /?page=[n]", has=[page.BRAND])
+            r = self.v.get(path, "/?page=[n]", has=[page.BRAND])
             self._learn_catalog(r)
             if r.ok and not page.card_product_ids(r.text):
                 self._fail(r, "page 2 lists no products")
@@ -197,7 +197,7 @@ class Shopper(ShopUser):
         if pid is None:
             self._open_home()
             return
-        r = self.v.get(f"/product/{pid}", "GET /product/[id]", has=['name="product_id"', "Customer reviews"])
+        r = self.v.get(f"/product/{pid}", "/product/[id]", has=['name="product_id"', "Customer reviews"])
         if not r.ok:
             return
         for t in page.tags(r.text):
@@ -208,9 +208,7 @@ class Shopper(ShopUser):
             self._fail(r, "product page shows no recommendations")
             return
         # follow one recommendation like a visitor would
-        self.v.get(
-            f"/product/{random.choice(recs)}", "GET /product/[id] (from recommendation)", has=['name="product_id"']
-        )
+        self.v.get(f"/product/{random.choice(recs)}", "/product/[id] (from recommendation)", has=['name="product_id"'])
 
     @task(4)
     def add_to_cart(self) -> None:
@@ -218,7 +216,7 @@ class Shopper(ShopUser):
         filled = self._fill_cart()
         if filled is not None:
             self._empty_cart()
-            self.v.get("/cart", "GET /cart (after empty)", has=[page.CART_EMPTY])
+            self.v.get("/cart", "/cart (after empty)", has=[page.CART_EMPTY])
 
     @task(3)
     def checkout_success(self) -> None:
@@ -236,7 +234,7 @@ class Shopper(ShopUser):
         r = self.v.post(
             "/cart/checkout",
             forms.checkout_form(page.idempotency_key(filled[1].text) or "", forms.DECLINED_CARD),
-            "POST /cart/checkout (declined card)",
+            "/cart/checkout (declined card)",
             status=422,
             has=[page.ERROR_TITLE, "declined"],
             lacks=[page.ORDER_COMPLETE],
@@ -252,7 +250,7 @@ class Shopper(ShopUser):
         self.v.post(
             "/cart",
             forms.add_to_cart_form(pid),
-            "POST /cart (sold-out product)",
+            "/cart (sold-out product)",
             status=422,
             has=[page.ERROR_TITLE, "out of stock"],
         )
@@ -267,7 +265,7 @@ class Shopper(ShopUser):
             return
         posted = False
         try:
-            r = self.v.get(f"/product/{pid}", "GET /product/[id]", has=["Write a review"])
+            r = self.v.get(f"/product/{pid}", "/product/[id]", has=["Write a review"])
             if not r.ok:
                 return
             author = f"loadgen bot {secrets.token_hex(3)}"
@@ -275,14 +273,14 @@ class Shopper(ShopUser):
             r = self.v.post(
                 f"/product/{pid}/reviews",
                 forms.review_form(author, random.randint(1, 5), text),
-                "POST /product/[id]/reviews",
+                "/product/[id]/reviews",
                 status=303,
                 location=[f"/product/{pid}"],
             )
             if not r.ok:
                 return
             posted = True
-            self.v.follow(r, "GET /product/[id] (after review)", has=[page.REVIEW_POSTED])
+            self.v.follow(r, "/product/[id] (after review)", has=[page.REVIEW_POSTED])
         finally:
             if not posted:
                 REVIEWS.give_back()
@@ -296,9 +294,9 @@ class Shopper(ShopUser):
         if placed:
             self._check_history_and_mail(placed)
         else:
-            self.v.get("/orders", "GET /orders", has=[page.ORDERS_TITLE])
-            self.v.get("/emails", "GET /emails", has=[page.EMAILS_TITLE])
-        self.v.post("/logout", {}, "POST /logout", status=(302, 303), location=["/"])
+            self.v.get("/orders", "/orders", has=[page.ORDERS_TITLE])
+            self.v.get("/emails", "/emails", has=[page.EMAILS_TITLE])
+        self.v.post("/logout", {}, "/logout", status=(302, 303), location=["/"])
 
     # ---------------------------------------------------------------- account steps
 
@@ -311,18 +309,18 @@ class Shopper(ShopUser):
             self.wrong_password_checked = (
                 True  # one wrong attempt per user: the login limit is 5 per address and minute
             )
-            self.v.get("/login", "GET /login", has=["Sign in"])
+            self.v.get("/login", "/login", has=["Sign in"])
             self.v.post(
                 "/login",
                 forms.login_form(email, "definitely-not-the-password"),
-                "POST /login (wrong password)",
+                "/login (wrong password)",
                 status=422,
                 has=[page.WRONG_CREDENTIALS],
             )
         r = self.v.post(
             "/login",
             forms.login_form(email, PASSWORD),
-            "POST /login",
+            "/login",
             status=(302, 303),
             location=["/account", "/orders"],
         )
@@ -331,11 +329,11 @@ class Shopper(ShopUser):
     def _register(self) -> bool:
         tag = secrets.token_hex(4)
         email, name = f"loadgen-{tag}@example.com", f"Load Generator {tag}"
-        self.v.get("/register", "GET /register", has=["Create an account", 'name="password"'])
+        self.v.get("/register", "/register", has=["Create an account", 'name="password"'])
         r = self.v.post(
             "/register",
             forms.register_form(name, email, PASSWORD),
-            "POST /register",
+            "/register",
             status=(302, 303),
             location=["/account", "/orders"],
         )
@@ -345,17 +343,17 @@ class Shopper(ShopUser):
         return self._account_page(email)
 
     def _account_page(self, email: str) -> bool:
-        return self.v.get("/account", "GET /account", has=[email]).ok
+        return self.v.get("/account", "/account", has=[email]).ok
 
     def _check_history_and_mail(self, order: str) -> None:
-        h = self.v.get("/orders", "GET /orders", has=[page.ORDERS_TITLE])
+        h = self.v.get("/orders", "/orders", has=[page.ORDERS_TITLE])
         if h.ok and order not in page.order_ids(h.text):
             self._fail(h, "new order missing from the order history")
-        self.v.get(f"/orders/{order}", "GET /orders/[id]", has=["placed"])
+        self.v.get(f"/orders/{order}", "/orders/[id]", has=["placed"])
         mail = None
         for attempt in range(1, MAIL_POLLS + 1):
             last = attempt == MAIL_POLLS
-            with self.client.get("/emails", name="GET /emails (poll for confirmation)", catch_response=True) as resp:
+            with self.client.get("/emails", name="/emails (poll for confirmation)", catch_response=True) as resp:
                 found = resp.status_code == 200 and page.mail_for_order(resp.text, order)
                 if found:
                     mail = found
@@ -368,7 +366,7 @@ class Shopper(ShopUser):
                 break
             self._sleep(1.0)
         if mail:
-            m = self.v.get(mail, "GET /emails/[id]", has=["Your Everly order confirmation"])
+            m = self.v.get(mail, "/emails/[id]", has=["Your Everly order confirmation"])
             if m.ok and not page.mail_is_sandboxed(m.text):
                 self._fail(m, "mail is not shown in a sandboxed iframe")
 
