@@ -1,6 +1,51 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
+build/
+dist/
 .venv/
+venv/
+
+# Test / lint caches and reports
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Locust output files (--csv, --html)
+*_stats*.csv
+*_failures.csv
+*_exceptions.csv
+*.html.report
+
+# Environment files and key material: never commit secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# TechDocs / mkdocs build output and its venv
+/site/
+docs-venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+
+# Agent / session notes: never committed
 STATUS.md
+NOTES*.md
+PLAN.md
+.claude/
