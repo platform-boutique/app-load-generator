@@ -1,0 +1,25 @@
+site_name: load-generator
+site_description: >-
+  A Locust project that drives the Everly storefront with weighted visitor journeys and prints a summary.
+repo_url: https://github.com/platform-boutique/app-load-generator
+edit_uri: edit/main/docs/
+nav:
+  - Overview: index.md
+  - Architecture: architecture.md
+  - Journeys: api.md
+  - Configuration: configuration.md
+  - Observability: observability.md
+  - Operations: operations.md
+  - Develop & test: development.md
+  - Decisions:
+      - "1. Locust, headless, HTML journeys": adr/0001-locust-headless-html-journeys.md
+      - "2. Hard caps and small defaults": adr/0002-hard-caps-and-small-defaults.md
+      - "3. Checks on every response": adr/0003-checks-on-every-response.md
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+plugins:
+  - techdocs-core

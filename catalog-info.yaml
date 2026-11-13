@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: load-generator
+  title: load-generator
+  description: "A Locust project that drives the Everly storefront with weighted visitor journeys and prints a summary."
+  annotations:
+    github.com/project-slug: platform-boutique/app-load-generator
+    backstage.io/source-location: url:https://github.com/platform-boutique/app-load-generator/tree/main/
+    backstage.io/techdocs-ref: dir:.
+  tags: [python, locust, load-test]
+spec:
+  type: tool
+  lifecycle: experimental
+  owner: group:default/maintainers
+  system: everly
+  dependsOn:
+    - component:default/frontend
