@@ -1,3 +1,11 @@
+[tool.bandit]
+exclude_dirs = ["tests"]
+# B311: `random` picks journeys, products and think times; nothing here needs a cryptographic generator
+#       (names and ids that must be unique use `secrets`).
+# B105: PASSWORD in journeys.py is the fixed password of the throwaway demo accounts this tool registers in
+#       the local shop (loadgen-<hex>@example.com); it protects nothing real.
+skips = ["B311", "B105"]
+
 [tool.ruff]
 target-version = "py312"
 line-length = 120
