@@ -13,6 +13,6 @@ spec:
   type: tool
   lifecycle: experimental
   owner: group:default/maintainers
-  system: everly
+  system: shop
   dependsOn:
     - component:default/frontend

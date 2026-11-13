@@ -137,4 +137,4 @@ Shared Python pipeline (`service-ci-python`) facts: it formats and lints with ru
 
 ## License
 
-To be decided by the owner. No `LICENSE` file exists in this repository yet.
+Apache License 2.0, see [LICENSE](LICENSE).
