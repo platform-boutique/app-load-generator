@@ -11,9 +11,20 @@ RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 # ---- Runtime stage ----
 FROM python:3.12-slim AS runtime
 
+ARG SERVICE_VERSION=dev
+ARG SERVICE_COMMIT=unknown
+
+LABEL org.opencontainers.image.title="load-generator" \
+      org.opencontainers.image.source="https://github.com/platform-boutique/app-load-generator" \
+      org.opencontainers.image.revision="${SERVICE_COMMIT}" \
+      org.opencontainers.image.version="${SERVICE_VERSION}" \
+      org.opencontainers.image.licenses="Apache-2.0"
+
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PYTHONPATH=/app/src
+    PYTHONPATH=/app/src \
+    SERVICE_VERSION=${SERVICE_VERSION} \
+    SERVICE_COMMIT=${SERVICE_COMMIT}
 
 RUN groupadd --system --gid 10001 loadgen \
     && useradd --system --uid 10001 --gid loadgen --no-create-home --shell /usr/sbin/nologin loadgen
