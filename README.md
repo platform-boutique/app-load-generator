@@ -8,8 +8,8 @@ Context diagram and the flow of a journey: [`docs/architecture.md`](docs/archite
 
 | | |
 |---|---|
-| Language / runtime | Python 3.12 (`.python-version`, ruff `target-version`, image `python:3.12-slim` all say 3.12), Locust 2.47.0 |
-| Image | built locally only: `platform-demo/load-generator:local` (`Dockerfile`, user `10001:10001`, no port, no HEALTHCHECK: batch tool) |
+| Language / runtime | Python 3.12 (`.python-version`, ruff `target-version`, image `python:3.12-alpine` all say 3.12), Locust 2.47.0 |
+| Image | built locally only: `platform-demo/load-generator:local` (`Dockerfile`, `python:3.12-alpine` + `apk upgrade`, 164 MB measured 2026-11-14 against 256 MB with `python:3.12-slim`, user `10001:10001`, no port, no HEALTHCHECK: batch tool) |
 | Ports | none (headless run, no web UI) |
 | State | none; a run leaves demo data in the shop (see Data) |
 | Depends on | the `frontend` over HTTP (`HOST`, default `http://frontend:8080`) |
@@ -113,7 +113,8 @@ Requirements: Python 3.12 and [uv](https://github.com/astral-sh/uv). Layout: `sr
 | Format | `.venv/bin/ruff format --check .` | run, 14 files already formatted |
 | Security scan | `.venv/bin/bandit -r src/ -c pyproject.toml` (bandit 1.9.4, the version the shared pipeline installs) | run, exit 0, no issues with the `[tool.bandit]` skip B311 (reason in `pyproject.toml`). Without it: 10 findings (10 x B311 `random`); the former B105 skip is gone since the demo password is random per process (run 2026-11-14 with bandit 1.9.4) |
 | Dependency audit | `pip-audit -r requirements.txt` | not run |
-| Image | `docker build -t platform-demo/load-generator:local .` | not run today |
+| Image | `docker build --platform linux/amd64 -t platform-demo/load-generator:local .` | run 2026-11-14, built; ran 15 s against a `python -m http.server` target (86 requests, exit 1 because the target is not the shop; exit 0 with `FAIL_RATIO=1`; exit 2 with `USERS=0`) |
+| Image scan | Trivy 0.76.1 `image --severity CRITICAL,HIGH --exit-code 1`, no ignore file | run 2026-11-14, exit 0, 0 vulnerabilities (before: 49 findings / 13 CVEs on `python:3.12-slim`) |
 | Docs | `mkdocs build --strict` (mkdocs 1.6.1 + mkdocs-techdocs-core 1.7.1, Python 3.12 venv made with uv) | run, passed |
 
 The tests run in a venv made with uv outside the repository (`uv venv --python 3.12`, `uv pip install -r requirements.txt -r requirements-dev.txt`).
@@ -125,7 +126,7 @@ Shared Python pipeline (`service-ci-python`) facts: it formats and lints with ru
 - **Health:** none. There is no server, no port and no `HEALTHCHECK`; the exit code is the result.
 - **Run length and shutdown:** the run ends after `RUN_TIME` (`--stop-timeout 30`: running tasks get up to 30 s to finish), prints the summary and exits with the code above. SIGTERM was tried on 2026-11-13 against a dead host (`HOST=http://127.0.0.1:1`, plain process, not the container): Locust logged `Shutting down`, printed its tables and exited (code 1 here, because every request had failed). `docker stop` of the image was not run.
 - **Scaling:** one process, one Locust runner. Distributed Locust (master/workers) and the web UI are not used and were not run. The practical limit is the shop's capacity, which is unknown beyond the runs in `docs/development.md`; the caps `MAX_ORDERS` / `MAX_REVIEWS` protect stock and ratings.
-- **Image:** `python:3.12-slim`, user `10001:10001`, nothing written to disk, no volume needed.
+- **Image:** `python:3.12-alpine` (Alpine 3.24.4 when measured), `RUN apk upgrade --no-cache` in the runtime stage, user `10001:10001`, nothing written to disk, no volume needed. Why Alpine: Trivy 0.76.1 reported 13 HIGH CVEs in `python:3.12-slim` (Debian 13.7), 11 of them without any Debian fix, so they could only have been ignored; `python:3.12-alpine` had one vulnerable package (krb5-libs, fixed in 1.22.3-r0) which `apk upgrade` patches. There is no `.trivyignore`: if a rebuild shows a new unfixed CVE, the scan fails and the answer is another base image or a patch, not an ignore entry. All wheels are musllinux except `zope.interface` 8.7 (no musllinux wheel: pip builds the pure-Python fallback without compiling, no C speedups; gevent works).
 - Runbook: [`docs/operations.md`](docs/operations.md).
 
 ## Known limits
