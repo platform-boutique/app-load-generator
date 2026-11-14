@@ -12,6 +12,8 @@ from dataclasses import dataclass, field
 
 from . import page
 
+DEFAULT_TIMEOUT = 30.0  # seconds for connect plus read of one request (CODE-05)
+
 
 def drop_secure_flag(jar) -> None:
     """Clear the `Secure` flag of every cookie in the jar so the cookies are sent back over plain http.
@@ -39,9 +41,10 @@ class Reply:
 class Visitor:
     """Wraps a Locust HttpSession (`client`) for one user. `host` is only used to refuse foreign redirects."""
 
-    def __init__(self, client, host: str) -> None:
+    def __init__(self, client, host: str, timeout: float = DEFAULT_TIMEOUT) -> None:
         self.client = client
         self.host = host
+        self.timeout = timeout
 
     def step(
         self,
@@ -61,7 +64,7 @@ class Visitor:
         wanted = {status} if isinstance(status, int) else set(status)
         reasons: list[str] = []
         with self.client.request(
-            method, path, name=name or path, data=data, allow_redirects=False, catch_response=True
+            method, path, name=name or path, data=data, allow_redirects=False, catch_response=True, timeout=self.timeout
         ) as resp:
             code = resp.status_code
             text = resp.text if code else ""

@@ -89,3 +89,11 @@ def test_every_task_has_a_journey_name():
 
     tasks = {t.__name__ for t in Shopper.tasks}
     assert tasks == set(JOURNEY_NAMES)
+
+
+def test_request_timeout_default_and_bounds():
+    assert Config.from_env({}).request_timeout == 30.0
+    assert Config.from_env({"REQUEST_TIMEOUT": "2.5"}).request_timeout == 2.5
+    for bad in ("0", "0.01", "301", "slow"):
+        with pytest.raises(ConfigError):
+            Config.from_env({"REQUEST_TIMEOUT": bad})

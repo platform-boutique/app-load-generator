@@ -10,6 +10,7 @@ Every variable read by the code (`src/loadgen/config.py`, plus `LOADGEN_PASSWORD
 | `RUN_TIME` | `60s` | no | Run length (`30s`, `5m`, `1h30m`); the process exits afterwards |
 | `MAX_ORDERS` | `30` | no | Hard cap of successful checkouts per run (all journeys together). `0` = place no orders |
 | `MAX_REVIEWS` | `10` | no | Hard cap of posted reviews per run. `0` = post none |
+| `REQUEST_TIMEOUT` | `30` | no | Seconds one HTTP request may take (connect and read, 0.1 to 300). A request that takes longer counts as a failed request with status 0 |
 | `FAIL_RATIO` | `0.01` | no | Exit code 1 when failed / total requests is above this (0 to 1) |
 | `THINK_MIN` | `1` | no | Seconds a user waits between journeys (lower bound, at least 0) |
 | `THINK_MAX` | `3` | no | Upper bound of the wait; must not be below `THINK_MIN` |

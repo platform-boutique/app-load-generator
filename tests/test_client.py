@@ -128,3 +128,40 @@ def test_secure_cookie_is_sent_back_over_http(shop):
     visitor.get("/", "home")
     visitor.get("/cart", "cart")
     assert "shop_session-id=abc123" in (Shop.seen_cookies[-1] or "")
+
+
+def test_a_request_that_outlasts_the_timeout_is_a_failure_with_status_0():
+    """CODE-05: no request waits forever. The server holds the answer back until the test is over."""
+    import http.server
+
+    release = threading.Event()
+
+    class Hanging(http.server.BaseHTTPRequestHandler):
+        def do_GET(self):
+            release.wait(60)  # a client without a timeout would sit here for a minute and then get a 200
+            self.send_response(200)
+            self.end_headers()
+
+        def log_message(self, *args):
+            pass
+
+    server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Hanging)
+    threading.Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01}, daemon=True).start()
+    host = f"http://127.0.0.1:{server.server_port}"
+    events = Events()
+    events.request = EventHook()
+    visitor = Visitor(HttpSession(base_url=host, request_event=events.request, user=None), host, timeout=0.2)
+    try:
+        r = visitor.get("/", "x")
+        assert not r.ok and r.status == 0
+        assert "no response" in r.reasons[0]
+    finally:
+        release.set()
+        server.shutdown()
+        server.server_close()
+
+
+def test_the_visitor_default_timeout_is_set():
+    from loadgen.client import DEFAULT_TIMEOUT
+
+    assert Visitor(object(), "http://x").timeout == DEFAULT_TIMEOUT == 30.0
