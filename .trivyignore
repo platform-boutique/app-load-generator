@@ -1,0 +1,21 @@
+# Trivy ignore list for the image scan (CI: input `trivyignores`, threshold HIGH,CRITICAL). Every entry has a reason and an expiry date
+# (APPLICATION-STANDARDS section 5.1); after the date Trivy reports it again.
+#
+# Base image python:3.12-slim = Debian 13.7. On 2026-11-14 Trivy 0.76.0 reported these HIGH findings in OS packages. For all but the two zlib
+# entries Debian has no fixed version yet (status "affected" / "fix_deferred"); for zlib the fix (deb13u1) is not yet in the base image.
+# Not reachable: the load generator is a batch process that only makes outgoing HTTP requests (no listener, no archive, sqlite, mount or
+# user-management use), runs as UID 10001 and has no shell access path from the network.
+# Review when the base image is rebuilt; remove entries that Trivy no longer reports.
+CVE-2025-69720 exp:2026-12-14
+CVE-2026-119373 exp:2026-12-14
+CVE-2026-119374 exp:2026-12-14
+CVE-2026-119379 exp:2026-12-14
+CVE-2026-16742 exp:2026-12-14
+CVE-2026-54369 exp:2026-12-14
+CVE-2026-76642 exp:2026-12-14
+CVE-2026-76844 exp:2026-12-14
+CVE-2026-78408 exp:2026-12-14
+CVE-2026-78409 exp:2026-12-14
+CVE-2026-78410 exp:2026-12-14
+CVE-2026-85091 exp:2026-12-14
+CVE-2026-9538 exp:2026-12-14

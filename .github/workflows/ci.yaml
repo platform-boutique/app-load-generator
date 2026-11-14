@@ -22,6 +22,7 @@ jobs:
     uses: platform-boutique/platform-demo-workflows/.github/workflows/service-ci-python.yaml@9e7a60340fa0720de3fdd72147342e9f5abcbbd3 # v3.6.0
     with:
       build-check-file: src/loadgen/__main__.py
+      trivyignores: .trivyignore
 
   # The merge button: waits for you to approve the environment `merge` on the run page (Review deployments), then squash-merges the
   # tested pull request and starts Publish. Not for forks or Dependabot (read-only token): use the normal Merge button there.
