@@ -8,6 +8,7 @@ HTTP against the frontend only; the only host contacted is HOST.
 from __future__ import annotations
 
 import logging
+import os
 import random
 import secrets
 from collections import Counter
@@ -34,7 +35,19 @@ REVIEW_TEXTS = [
     "Load test: this text is not a real opinion.",
 ]
 MAIL_POLLS = 20  # the confirmation mail comes through Kafka: poll up to this many times, one second apart
-PASSWORD = "loadgen-password-1"
+
+
+def make_password(env=None) -> str:
+    """Password of the demo accounts this process registers: LOADGEN_PASSWORD if set, else a random one.
+
+    The shop wants 8 to 72 bytes. Every registration uses a fresh random e-mail and the accounts are only used by this
+    process, so the password never has to survive a run.
+    """
+    env = os.environ if env is None else env
+    return env.get("LOADGEN_PASSWORD") or secrets.token_urlsafe(16)
+
+
+PASSWORD = make_password()
 
 
 class ShopUser(HttpUser):
