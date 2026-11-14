@@ -65,6 +65,7 @@ class Config:
     max_orders: int = 30
     max_reviews: int = 10
     fail_ratio: float = 0.01
+    request_timeout: float = 30.0  # seconds per HTTP request (CODE-05)
     think_min: float = 1.0
     think_max: float = 3.0
     sold_out_products: tuple[str, ...] = ("volleyball-153",)
@@ -96,6 +97,7 @@ class Config:
             max_orders=_int(env, "MAX_ORDERS", cls.max_orders, 0),
             max_reviews=_int(env, "MAX_REVIEWS", cls.max_reviews, 0),
             fail_ratio=_float(env, "FAIL_RATIO", cls.fail_ratio, 0.0, 1.0),
+            request_timeout=_float(env, "REQUEST_TIMEOUT", cls.request_timeout, 0.1, 300.0),
             think_min=think_min,
             think_max=think_max,
             sold_out_products=sold_out or cls.sold_out_products,

@@ -42,7 +42,7 @@ In the workspace compose (profile `loadgen`, not started by `up.sh`; it places R
 
 No API: there is no server. The tool is a client of the frontend's HTML routes. Its interface is the environment (next section), the exit code and the printed summary.
 
-Exit code: 0 when the failure ratio is within `FAIL_RATIO`; 1 when it is above, or when no request was made; 2 for a bad configuration (message on stderr, before any request).
+Exit code: 0 when the failure ratio is within `FAIL_RATIO`; 1 when it is above, or when no request was made; 2 for a bad configuration (one JSON line on stderr, before any request).
 
 The journeys (full table with failure criteria: [`docs/api.md`](docs/api.md)); each simulated user is one visitor with its own cookie jar and tasks are picked by weight; a step that fails ends that journey:
 
@@ -69,6 +69,7 @@ Every variable read by the code (`src/loadgen/config.py`, plus `LOADGEN_PASSWORD
 | `RUN_TIME` | `60s` | no | Run length (`30s`, `5m`, `1h30m`); the process exits afterwards |
 | `MAX_ORDERS` | `30` | no | Hard cap of successful checkouts per run (all journeys together). `0` = place no orders |
 | `MAX_REVIEWS` | `10` | no | Hard cap of posted reviews per run. `0` = post none |
+| `REQUEST_TIMEOUT` | `30` | no | Seconds one HTTP request may take (connect and read, 0.1 to 300). A request that takes longer counts as a failed request with status 0 |
 | `FAIL_RATIO` | `0.01` | no | Exit code 1 when failed / total requests is above this (0 to 1) |
 | `THINK_MIN` | `1` | no | Seconds a user waits between journeys (lower bound, at least 0) |
 | `THINK_MAX` | `3` | no | Upper bound of the wait; must not be below `THINK_MIN` |
@@ -88,7 +89,7 @@ What the tool emits today (code read 2026-11-13):
 |---|---|---|
 | Traces | none. The requests carry no `traceparent`, so each request starts its own trace at the frontend | trace context from the load generator (OBS-60 would need it) |
 | Metrics | none. Locust's statistics are printed once at the end | Prometheus / OTLP export of the run |
-| Logs | Locust's own log lines and tables on stdout/stderr, plain text (not JSON); the `loadgen` logger for notes. No secrets: only demo accounts and the test cards of the shop | JSON logs, `trace_id` |
+| Logs | Locust's own log lines and tables on stdout/stderr, plain text (not JSON); two lines of this program are JSON in the standard shape: `starting` (with `version`, `commit`, host, users, run time, request timeout) on stdout and the bad-configuration error on stderr; the `loadgen` logger for notes. No secrets: only demo accounts and the test cards of the shop | JSON logs, `trace_id` |
 | Profiles | none | n/a for a batch tool |
 
 The result is the printed summary after the Locust tables: requests, failures (and ratio), median/p95/p99, requests per second, orders placed, reviews posted, journeys run, failures by cause (short constant messages, so they group by cause) and a `PASSED` / `FAILED` verdict. Every response is also checked for leaked internals (`rpc error`, Go stack traces, password hashes). Static assets are not fetched, only the HTML pages. The standards' OBS rules were written for services; whether they apply to this batch tool is a question for the owner.

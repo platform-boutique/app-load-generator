@@ -60,7 +60,7 @@ class ShopUser(HttpUser):
 
 class Shopper(ShopUser):
     def on_start(self) -> None:
-        self.v = Visitor(self.client, CONFIG.host)
+        self.v = Visitor(self.client, CONFIG.host, CONFIG.request_timeout)
         self.catalog: list[str] = []
         self.depts: list[str] = []
         self.terms: list[str] = []
