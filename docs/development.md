@@ -8,7 +8,7 @@ Commands run on 2026-11-13 for the standards change (venv made with uv, Python 3
 |---|---|
 | `PYTHONPATH=src pytest` (venv from `requirements.txt` + `requirements-dev.txt`, Python 3.12 via uv) | 44 passed |
 | `ruff check .` / `ruff format --check .` (ruff 0.17.2) | all checks passed / 14 files already formatted |
-| `bandit -r src/ -c pyproject.toml` (bandit 1.9.4) | exit 0, no issues (with the `[tool.bandit]` skips B311, B105); without them 11 findings |
+| `bandit -r src/ -c pyproject.toml` (bandit 1.9.4) | exit 0, no issues (with the `[tool.bandit]` skip B311); without it 10 findings (B311) |
 | `mkdocs build --strict` (mkdocs 1.6.1, mkdocs-techdocs-core 1.7.1, Python 3.12 venv made with uv) | passed |
 
 ## What the earlier author ran (recorded, not re-run for this page)
