@@ -107,16 +107,18 @@ volumes are the only cleanup (`docker compose down -v`); nothing here deletes th
 
 Requirements: Python 3.12 and [uv](https://github.com/astral-sh/uv). Layout: `src/loadgen/` (`__main__.py` env to Locust arguments, `config.py`, `journeys.py` Locust user and tasks, `client.py` checking client, `page.py` HTML helpers, `forms.py`, `budget.py`), `tests/` (with HTML fixtures saved from the running shop: trimmed, demo data only), `requirements.in` / `requirements.txt` (Locust 2.47.0 and its lock, compiled with `uv pip compile --python-version 3.12 --exclude-newer 2026-10-25`), `requirements-dev.txt` (pytest 9.1.1, ruff 0.17.2).
 
-| Step | Command | Result on 2026-11-13 |
+| Step | Command | Result on 2026-11-21 (a cell with its own date is an older run) |
 |---|---|---|
-| Unit tests | `PYTHONPATH=src .venv/bin/pytest` (`pytest.ini` also sets `pythonpath`) | run, 44 passed |
+| Unit tests | `PYTHONPATH=src .venv/bin/pytest` (`pytest.ini` also sets `pythonpath`) | run, 56 passed |
 | Lint | `.venv/bin/ruff check .` | run, all checks passed |
-| Format | `.venv/bin/ruff format --check .` | run, 14 files already formatted |
-| Security scan | `.venv/bin/bandit -r src/ -c pyproject.toml` (bandit 1.9.4, the version the shared pipeline installs) | run, exit 0, no issues with the `[tool.bandit]` skip B311 (reason in `pyproject.toml`). Without it: 10 findings (10 x B311 `random`); the former B105 skip is gone since the demo password is random per process (run 2026-11-14 with bandit 1.9.4) |
-| Dependency audit | `pip-audit -r requirements.txt` | not run |
+| Format | `.venv/bin/ruff format --check .` | run, 27 files already formatted |
+| Security scan | `.venv/bin/bandit -r src/ -c pyproject.toml` (bandit 1.9.4, the version the shared pipeline installs) | run (bandit 1.9.4 installed with uv in a venv outside the repo), exit 0, no issues with the `[tool.bandit]` skip B311 (reason in `pyproject.toml`). Without it: 10 findings (10 x B311 `random`); the former B105 skip is gone since the demo password is random per process (run 2026-11-14 with bandit 1.9.4) |
+| Dependency audit | `pip-audit -r requirements.txt` | run, no known vulnerabilities found |
 | Image | `docker build --platform linux/amd64 -t platform-demo/load-generator:local .` | run 2026-11-14, built; ran 15 s against a `python -m http.server` target (86 requests, exit 1 because the target is not the shop; exit 0 with `FAIL_RATIO=1`; exit 2 with `USERS=0`) |
 | Image scan | Trivy 0.76.1 `image --severity CRITICAL,HIGH --exit-code 1`, no ignore file | run 2026-11-14, exit 0, 0 vulnerabilities (before: 49 findings / 13 CVEs on `python:3.12-slim`) |
-| Docs | `mkdocs build --strict` (mkdocs 1.6.1 + mkdocs-techdocs-core 1.7.1, Python 3.12 venv made with uv) | run, passed |
+| Docs | `mkdocs build --strict` (mkdocs 1.6.1 + mkdocs-techdocs-core 1.7.1, Python 3.12 venv made with uv) and the link check `python3 -I tools/check-md-links.py .` from `platform-demo-workflows` (relative links in `README.md` and `docs/`) | run, both passed |
+| Secret scan | `pre-commit run --all-files` (if the repo has a `.pre-commit-config.yaml`) or `gitleaks git --redact` | run with the gitleaks binary of the pre-commit cache (`gitleaks git --redact`, full history, 22 commits): no leaks found |
+| Workflow lint | `actionlint` | run (actionlint 1.7.12), no findings |
 
 The tests run in a venv made with uv outside the repository (`uv venv --python 3.12`, `uv pip install -r requirements.txt -r requirements-dev.txt`).
 
