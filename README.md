@@ -17,7 +17,7 @@ Context diagram and the flow of a journey: [`docs/architecture.md`](docs/archite
 
 ## Status
 
-No CI pipeline, GitHub repository, Helm chart or Backstage registration exists yet; the service is built and run locally only. Status badges are added when the repo has a pipeline. The CI notes for the shared Python pipeline are in Develop.
+The repository has the shared CI pipeline (`ci / gate`, platform-demo-workflows v3.8.0) and merges to `main` publish nothing (`start-publish: false`, no `publish.yaml`). No Helm chart exists and the service is not deployed in any environment yet; it is a batch client that is run on demand against the local shop with the compose profile `loadgen` (see Quick start).
 
 ## Quick start
 
