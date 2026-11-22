@@ -15,6 +15,7 @@ nav:
       - "1. Locust, headless, HTML journeys": adr/0001-locust-headless-html-journeys.md
       - "2. Hard caps and small defaults": adr/0002-hard-caps-and-small-defaults.md
       - "3. Checks on every response": adr/0003-checks-on-every-response.md
+      - "4. Locust output stays plain text": adr/0004-locust-logs-stay-plain-text.md
 theme:
   name: material
   features:

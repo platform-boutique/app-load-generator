@@ -4,7 +4,7 @@
 # scan passes by patching, without an ignore list. Rebuilding picks up newer Alpine fixes; the CI scan fails again if one is missing.
 
 # ---- Build stage: dependencies from the fully pinned lock (requirements.in is its source; regenerate with uv pip compile) ----
-FROM python:3.12-alpine AS builder
+FROM python:3.12-alpine@sha256:c5ba3deef00c7758561a0f03c26f44f10589263d40e732b8748e0d1f38f6dd89 AS builder
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
@@ -14,7 +14,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 # ---- Runtime stage ----
-FROM python:3.12-alpine AS runtime
+FROM python:3.12-alpine@sha256:c5ba3deef00c7758561a0f03c26f44f10589263d40e732b8748e0d1f38f6dd89 AS runtime
 
 ARG SERVICE_VERSION=dev
 ARG SERVICE_COMMIT=unknown
