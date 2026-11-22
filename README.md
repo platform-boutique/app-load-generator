@@ -9,7 +9,7 @@ Context diagram and the flow of a journey: [`docs/architecture.md`](docs/archite
 | | |
 |---|---|
 | Language / runtime | Python 3.12 (`.python-version`, ruff `target-version`, image `python:3.12-alpine` all say 3.12), Locust 2.47.0 |
-| Image | built locally only: `platform-demo/load-generator:local` (`Dockerfile`, `python:3.12-alpine` + `apk upgrade`, 164 MB measured 2026-11-14 against 256 MB with `python:3.12-slim`, user `10001:10001`, no port, no HEALTHCHECK: batch tool) |
+| Image | built locally only: `platform-demo/load-generator:local` (`Dockerfile`, `python:3.12-alpine` pinned by digest + `apk upgrade`, 173 MB measured 2026-11-22 (`docker images`, linux/amd64; 256 MB with `python:3.12-slim` earlier), user `10001:10001`, no port, no HEALTHCHECK: batch tool) |
 | Ports | none (headless run, no web UI) |
 | State | none; a run leaves demo data in the shop (see Data) |
 | Depends on | the `frontend` over HTTP (`HOST`, default `http://frontend:8080`) |
@@ -92,7 +92,7 @@ What the tool emits today (code read 2026-11-13):
 | Logs | Locust's own log lines and tables on stdout/stderr, plain text (not JSON); two lines of this program are JSON in the standard shape: `starting` (with `version`, `commit`, host, users, run time, request timeout) on stdout and the bad-configuration error on stderr; the `loadgen` logger for notes. No secrets: only demo accounts and the test cards of the shop | JSON logs, `trace_id` |
 | Profiles | none | n/a for a batch tool |
 
-The result is the printed summary after the Locust tables: requests, failures (and ratio), median/p95/p99, requests per second, orders placed, reviews posted, journeys run, failures by cause (short constant messages, so they group by cause) and a `PASSED` / `FAILED` verdict. Every response is also checked for leaked internals (`rpc error`, Go stack traces, password hashes). Static assets are not fetched, only the HTML pages. The standards' OBS rules were written for services; whether they apply to this batch tool is a question for the owner.
+The result is the printed summary after the Locust tables: requests, failures (and ratio), median/p95/p99, requests per second, orders placed, reviews posted, journeys run, failures by cause (short constant messages, so they group by cause) and a `PASSED` / `FAILED` verdict. Every response is also checked for leaked internals (`rpc error`, Go stack traces, password hashes). Static assets are not fetched, only the HTML pages. The standards' OBS rules were written for services; for this batch tool the owner decided (2026-11-22, [ADR 4](docs/adr/0004-locust-logs-stay-plain-text.md)) that the program's own lines are JSON in the standard shape and Locust's own output stays plain text.
 
 ## Data
 
